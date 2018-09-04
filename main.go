@@ -134,11 +134,11 @@ func generateCode128() http.Handler {
 			return
 		}
 
-		qrCode, _ := code128.EncodeWithoutChecksum(content)
-		qrCode, _ = barcode.Scale(qrCode, width, height)
+		code, _ := code128.Encode(content)
+		scaledCode, _ := barcode.Scale(code, width, height)
 
 		buffer := new(bytes.Buffer)
-		png.Encode(buffer, qrCode)
+		png.Encode(buffer, scaledCode)
 
 		w.Header().Set("Content-Type", "image/png")
 		w.Header().Set("Content-Length", strconv.Itoa(len(buffer.Bytes())))
